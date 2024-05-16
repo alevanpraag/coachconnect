@@ -6,9 +6,13 @@ const PORT = 5001;
 
 app.use(express.json());
 
-app.get("/",(req,res) => {
-    res.json({"hello": "world"})
-});
+// Import route modules
+const userRoutes = require('./routes/userRoutes');
+const availabilityRoutes = require('./routes/availabilityRoutes');
+
+// Use route modules
+app.use('/users', userRoutes);
+app.use('/availabilities', availabilityRoutes);
 
 sequelize.authenticate().then(() => {
     console.log('Connection to the database has been established successfully.');
