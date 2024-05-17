@@ -4,7 +4,7 @@ const User = require('../models/User');
 const Availability = require('../models/Availability');
 
 const callHistoryController = {
-    getPaginatedCallHistories: async (req, res) => {
+    getCallHistories: async (req, res) => {
     const coachId = req.query.coachId;
     const studentId = req.query.studentId;
 
