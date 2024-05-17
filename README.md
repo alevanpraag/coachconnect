@@ -59,17 +59,17 @@ These instructions will get you a copy of the project up and running on your loc
 
 The backend supports several endpoints:
 
-POST /users: Register a new user.
-GET /users: Retrieve all users.
-GET /users/:id: Retrieve given user by id. (to get user info)
-POST /availabilities: Create a new availability slot.
-PUT /availabilities: Update a new availability slot (to change state from available to booked).
-GET /availabilities/all: Get all availability slots.
-GET /availabilities/by-day: Get all availability slots on a given day (and coach if needed for displaying to coach which availabilites they added and show student all availbilites to choose from)
-POST /bookings: Create a new booking.
-GET /bookings: Get all future bookings of given user
-POST /call-histories: Create a new booking.
-GET /call-histories: Get all bookings of given user
+- POST /users: Register a new user.
+- GET /users: Retrieve all users.
+- GET /users/:id: Retrieve given user by id. (to get user info)
+- POST /availabilities: Create a new availability slot.
+- PUT /availabilities: Update a new availability slot (to change state from available to booked).
+- GET /availabilities/all: Get all availability slots.
+- GET /availabilities/by-day: Get all availability slots on a given day (and coach if needed for displaying to coach which availabilites they added and show student all availbilites to choose from)
+- POST /bookings: Create a new booking.
+- GET /bookings: Get all future bookings of given user
+- POST /call-histories: Create a new booking.
+- GET /call-histories: Get all bookings of given user
 
 ### Database
 
