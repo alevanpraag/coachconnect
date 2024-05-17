@@ -4,10 +4,8 @@ const Availability = require('../models/Availability');
 const { Op } = require('sequelize');
 
 const bookingController = {
-    //get future bookings
+    //get future
     getFutureBookings: async (req, res) => {
-    const limit = parseInt(req.query.limit, 10) || 20;
-    const page = parseInt(req.query.page, 10) || 0;
     const coachId = req.query.coachId;
     const studentId = req.query.studentId;
     const today = new Date();
@@ -26,7 +24,7 @@ const bookingController = {
     whereConditions['$slot.start_time$'] = { [Op.gte]: today };
 
     try {
-        const { count, rows } = await Booking.findAndCountAll({
+        const bookings = await Booking.findAll({
             include: [{
                 model: User,
                 as: 'coach',
@@ -44,14 +42,12 @@ const bookingController = {
                 attributes: ['start_time']
             }],
             where: whereConditions,
-            limit: limit,
-            offset: page * limit,
             order: [
                 [ { model: Availability, as: 'slot' }, 'start_time', 'ASC']
             ]
         });
 
-        res.json({ data: rows, total: count });
+        res.json(bookings);
     } catch (error) {
         console.error('Failed to fetch call histories', error);
         res.status(500).json({ message: 'Error fetching call histories', error: error.message });
