@@ -37,6 +37,51 @@ export default function StudentPage(props) {
             });
         }, [date]);
 
+    const handleSubmit = async () => {
+        if (!timeSelected) return;
+    
+        const bookingData = {
+            coachId: timeSelected.coachId,
+            studentId: userId,
+            slotId: timeSelected.id
+        };
+    
+        try {
+            // Attempt to create a new booking
+            const bookingResponse = await fetch('/bookings', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(bookingData)
+            });
+    
+            if (!bookingResponse.ok) {
+                throw new Error(`Booking failed with status: ${bookingResponse.status}`);
+            }
+    
+            alert('Booking successful!');
+    
+            // Update the availability status
+            const availabilityData = { is_booked: true };
+            const availabilityResponse = await fetch(`/availabilities/${timeSelected.id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(availabilityData)
+            });
+    
+            if (!availabilityResponse.ok) {
+                throw new Error(`Updating availability failed with status: ${availabilityResponse.status}`);
+            }
+    
+        } catch (error) {
+            console.error('Error during booking process:', error);
+            alert(`Booking process failed: ${error.message}`);
+        } finally {
+            fetchAvailabilities();
+            setTimeSelected(null);
+        }
+    };
+        
+
     const availabilityView = () => {
         if (loading) return <p>Loading...</p>;
         if (error) return <p>{error}</p>;
@@ -60,6 +105,15 @@ export default function StudentPage(props) {
         </ul>
     );
 
+    const confirmTimeView = () => {
+        return (
+            <>
+            <h3 className="name"> 1:1 with {timeSelected.coach.name} at {dayjs(timeSelected.start_time).format('h:mm A')}</h3>
+            <Button variant='contained' onClick={()=> handleSubmit()}> Book </Button>
+            </>
+        );
+    };
+
     useEffect(() => {
         fetchAvailabilities();
     }, [fetchAvailabilities,date]);
@@ -75,6 +129,7 @@ export default function StudentPage(props) {
             <Stack spacing={2} direction="column" className="middle">
             <h2> {dayjs(date).format('MMMM DD')} Availability: </h2>
                 {availabilityView()}
+                {timeSelected == null ? null : confirmTimeView()}
             </Stack>
             
         </div>

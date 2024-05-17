@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import CoachPage from './CoachPage';
 import StudentPage from './StudentPage';
+import BookingPage from './BookingPage';
 
 
 export default function HomePage() {
@@ -53,7 +54,7 @@ export default function HomePage() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-       Bookings
+        <BookingPage/>
       </TabPanel>
       <TabPanel value={value} index={1}>
       {role === 'coach' ? <CoachPage/>: <StudentPage/>}
