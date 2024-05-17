@@ -1,5 +1,6 @@
 const Availability = require('../models/Availability');
 const User = require('../models/User');
+const { Op } = require('sequelize');
 
 const availabilityController = {
   // Get all availabilities
@@ -11,6 +12,40 @@ const availabilityController = {
       res.status(500).send(error.message);
     }
   },
+
+  // GET availabilities by specific day (and coach)
+  getAvailabilitiesByDayAndCoach: async (req, res) => {
+    try {
+        const { date, coachId } = req.query;
+        const startOfDay = new Date(date);
+        startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(date);
+        endOfDay.setHours(23, 59, 59, 999);
+
+        const queryOptions = {
+            where: {
+                start_time: {
+                    [Op.between]: [startOfDay, endOfDay]
+                }
+            },
+            include: [{
+                model: User,
+                as: 'coach',
+                attributes: ['name']
+            }]
+        };
+
+        if (coachId) {
+            queryOptions.include[0].where = { id: coachId }; // Filter by coach ID if provided
+        }
+
+        const availabilities = await Availability.findAll(queryOptions);
+
+        res.json(availabilities);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+},
 
   // Create a new availability
   createAvailability: async (req, res) => {
