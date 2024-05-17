@@ -2,24 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 function CallHistoryPage() {
-    const [callHistories, setCallHistories] = useState([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
     const { role,userId } = useParams();  // Get the userId from the URL
+    const [callHistories, setCallHistories] = useState([]);
 
     useEffect(() => {
-        fetch(`/call-histories?page=${page}&limit=20&`+role+"Id="+userId)
+        fetch(`/call-histories?${role}Id=${userId}`)
             .then(response => response.json())
-            .then(({ data, total }) => {
-                setCallHistories(prev => [...prev, ...data]); 
-                setHasMore(data.length === 20); // Simplistic check for more data
-            })
+            .then(data => setCallHistories(data))
             .catch(error => console.error('Failed to load call histories', error));
-    }, [page,role,userId]);
-
-    function handleLoadMore() {
-        setPage(prev => prev + 1);
-    }
+    }, [role,userId]);
 
     return (
         <div>
@@ -34,7 +25,6 @@ function CallHistoryPage() {
             ) : (
                 <p>No call histories.</p>
             )}
-            {hasMore && <button onClick={handleLoadMore}>Load More</button>}
         </div>
     );
 }
