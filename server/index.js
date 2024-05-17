@@ -10,11 +10,13 @@ app.use(express.json());
 const userRoutes = require('./routes/userRoutes');
 const availabilityRoutes = require('./routes/availabilityRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
+const callHistoryRoutes = require('./routes/callHistoryRoutes');
 
 // Use route modules
 app.use('/users', userRoutes);
 app.use('/availabilities', availabilityRoutes);
 app.use('/bookings', bookingRoutes);
+app.use('/call-histories', callHistoryRoutes);
 
 sequelize.authenticate().then(() => {
     console.log('Connection to the database has been established successfully.');

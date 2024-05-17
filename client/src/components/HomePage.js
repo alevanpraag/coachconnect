@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import CoachPage from './CoachPage';
 import StudentPage from './StudentPage';
 import BookingPage from './BookingPage';
+import CallHistoryPage from './CallHistoryPage';
 
 
 export default function HomePage() {
@@ -60,7 +61,7 @@ export default function HomePage() {
       {role === 'coach' ? <CoachPage/>: <StudentPage/>}
       </TabPanel>
       <TabPanel value={value} index={2}>
-       Call History
+       <CallHistoryPage/>
       </TabPanel>
     </Box>
   );
