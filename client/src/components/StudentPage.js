@@ -119,7 +119,7 @@ export default function StudentPage(props) {
     }, [fetchAvailabilities,date]);
     
     return (
-        <div >
+        <div className="center">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar
                     value={date}
