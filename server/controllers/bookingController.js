@@ -9,7 +9,6 @@ const bookingController = {
     const coachId = req.query.coachId;
     const studentId = req.query.studentId;
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
 
     const whereConditions = {};
 
@@ -53,6 +52,52 @@ const bookingController = {
         res.status(500).json({ message: 'Error fetching call histories', error: error.message });
     }
     },
+
+    //get all bookings
+    getBookings: async (req, res) => {
+        const coachId = req.query.coachId;
+        const studentId = req.query.studentId;
+    
+        const whereConditions = {};
+    
+        if (coachId) {
+            whereConditions['$coach.id$'] = coachId; 
+        }
+    
+        if (studentId) {
+            whereConditions['$student.id$'] = studentId;
+        }
+    
+        try {
+            const bookings = await Booking.findAll({
+                include: [{
+                    model: User,
+                    as: 'coach',
+                    required: coachId ? true : false,
+                    attributes: ['name', 'phone_number'],
+                }, {
+                    model: User,
+                    as: 'student',
+                    required: studentId ? true : false,
+                    attributes: ['name', 'phone_number'],
+                }, {
+                    model: Availability,
+                    as: 'slot',
+                    required: true,
+                    attributes: ['start_time']
+                }],
+                where: whereConditions,
+                order: [
+                    [ { model: Availability, as: 'slot' }, 'start_time', 'ASC']
+                ]
+            });
+    
+            res.json(bookings);
+        } catch (error) {
+            console.error('Failed to fetch call histories', error);
+            res.status(500).json({ message: 'Error fetching call histories', error: error.message });
+        }
+        },
       
     // Create a new booking
     createBooking: async (req, res) => {
