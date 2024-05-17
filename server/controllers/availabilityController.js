@@ -37,7 +37,9 @@ const availabilityController = {
 
         if (coachId) {
             queryOptions.include[0].where = { id: coachId }; // Filter by coach ID if provided
-        }
+        }else{
+          queryOptions.where.is_booked = false;
+      }
 
         const availabilities = await Availability.findAll(queryOptions);
 
