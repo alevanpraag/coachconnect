@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+// shows all call histories of student/coach
 function CallHistoryPage() {
     const { role,userId } = useParams();  // Get the userId from the URL
     const [callHistories, setCallHistories] = useState([]);

@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
+// Coach view for adding availability to calendar for students to book
 export default function CoachPage(props) {   
     const { userId } = useParams();  // Get the userId from the URL
     const [date, setDate] = React.useState(dayjs());
@@ -30,6 +31,7 @@ export default function CoachPage(props) {
             });
     }, [date,userId]);
 
+    //adds availability to database
     const handleSubmit = () => {
         const availabilityData = {
             coachId: userId,

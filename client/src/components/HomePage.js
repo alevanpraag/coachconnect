@@ -8,7 +8,7 @@ import StudentPage from './StudentPage';
 import BookingPage from './BookingPage';
 import CallHistoryPage from './CallHistoryPage';
 
-
+//main page for all users with tabs for Bookings, Call History, and to add/reserve slots
 export default function HomePage() {
   const {role, userId } = useParams();
   const [value, setValue] = React.useState(0);

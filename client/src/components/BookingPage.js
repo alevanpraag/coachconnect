@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
 
+// shows all FUTURE sessions booked for coach/student 
 function BookingPage() {
     const { role,userId } = useParams();
     const [bookings, setBookings] = useState([]);
 
+    //get bookings from server
     useEffect(() => {
         fetch(`/bookings?${role}Id=${userId}`)
             .then(response => response.json())
