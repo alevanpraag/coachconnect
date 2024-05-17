@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import CoachPage from './CoachPage';
+import StudentPage from './StudentPage';
+
 
 export default function HomePage() {
   const {role, userId } = useParams();
@@ -54,7 +56,7 @@ export default function HomePage() {
        Bookings
       </TabPanel>
       <TabPanel value={value} index={1}>
-      {role === 'coach' ? <CoachPage/>: null}
+      {role === 'coach' ? <CoachPage/>: <StudentPage/>}
       </TabPanel>
       <TabPanel value={value} index={2}>
        Call History
