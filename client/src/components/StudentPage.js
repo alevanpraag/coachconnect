@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
+// Student View for reserving sessions with coaches
 export default function StudentPage(props) {   
     const { userId } = useParams();  // Get the userId from the URL
     const [date, setDate] = React.useState(dayjs());
@@ -17,6 +18,7 @@ export default function StudentPage(props) {
     const [error, setError] = useState('');
     const [timeSelected, setTimeSelected] = useState(null);
 
+    // get all available sessions with all coaches on date selected
     const fetchAvailabilities = useCallback(() => {
         setLoading(true);
         fetch(`/availabilities/by-day?date=${date.toISOString()}`)
@@ -37,6 +39,7 @@ export default function StudentPage(props) {
             });
         }, [date]);
 
+    // student submits request for session with coach
     const handleSubmit = async () => {
         if (!timeSelected) return;
     
@@ -81,7 +84,6 @@ export default function StudentPage(props) {
         }
     };
         
-
     const availabilityView = () => {
         if (loading) return <p>Loading...</p>;
         if (error) return <p>{error}</p>;
@@ -105,6 +107,7 @@ export default function StudentPage(props) {
         </ul>
     );
 
+    // once clicked on a time slot, asks to confirm choice
     const confirmTimeView = () => {
         return (
             <>
