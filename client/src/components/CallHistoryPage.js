@@ -18,7 +18,8 @@ function CallHistoryPage() {
                 <ul>
                     {callHistories.map((history, index) => (
                         <li key={index}>
-                            Rating: {history.rating}, Comments: {history.comments || 'No comments'}, Coach: {history.booking.coach.name}, Student: {history.booking.student.name}
+                            <p> Call with Coach {history.booking.coach.name} and {history.booking.student.name}</p>
+                            Rating: {history.rating}, Comments: {history.comments}
                         </li>
                     ))}
                 </ul>
